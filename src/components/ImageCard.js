@@ -1,12 +1,15 @@
 import React from 'react';
 
-const ImageCard = (props) => {
+const ImageCard = ({ image, title, date, copyright }) => {
   return (
-    <div className="card">
-      <div className="card__date">{props.date}</div>
-      <div className="card__title">{props.title}</div>
-      <img className="card__image" src={props.image} alt={props.title}></img>
-    </div>
+    <article className="card">
+      <img className="card__image" src={image} alt={title}></img>
+      <p className="card__date">{date}</p>
+      <header className="card__header">
+        <h5 className="card__title">{title}</h5>
+        {copyright && <p className="card__copyright">{copyright}</p>}
+      </header>
+    </article>
   );
 };
 
