@@ -20,16 +20,18 @@ function App() {
 
   return (
     <div className="App">
-      {pictures &&
-        pictures.map((picture) => (
-          <ImageCard
-            key={picture.date}
-            title={picture.title}
-            image={picture.hdurl}
-            copyright={picture.copyright}
-            date={picture.date}
-          />
-        ))}
+      <div className="container">
+        {pictures &&
+          pictures.map((picture) => (
+            <ImageCard
+              key={picture.date}
+              title={picture.title}
+              image={picture.url}
+              copyright={picture.copyright}
+              date={picture.date}
+            />
+          ))}
+      </div>
     </div>
   );
 }
