@@ -4,7 +4,7 @@ import './ImageCard.css';
 const ImageCard = ({ image, title, date, copyright }) => {
   return (
     <article className="card">
-      <figure>
+      <figure className="card__figure">
         <img className="card__image" src={image} alt={title}></img>
       </figure>
       <p className="card__date">{date}</p>
