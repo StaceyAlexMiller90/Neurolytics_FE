@@ -31,25 +31,30 @@ function App() {
       const endDate = new Date();
       getNASAPictures(startDate, endDate).then((res) => {
         const images = res.filter((image) => image.media_type === 'image');
-        const sortedImages = sortPictures('newest', images);
+        const sortedImages = sortPictures(sortOption, images);
         updatePictures(sortedImages);
         setFilteredPics(sortedImages);
       });
     }
-  }, [pictures, sortPictures, filteredPics]);
+  }, [pictures, sortPictures, filteredPics, sortOption]);
 
   const handleDateChange = (value) => {
     setLoading(true);
-    const splitValue = value.split(' ');
-    const qty = parseInt(splitValue[0]);
-    const type = splitValue[1];
-    const today = new Date();
-    const startDate = moment(today).subtract(qty, type);
-    const dateRangePics = pictures.filter((pic) => {
-      return moment(pic.date).isSameOrAfter(startDate, 'day');
-    });
-    const sortedDateRange = sortPictures(sortOption, dateRangePics);
-    setFilteredPics(sortedDateRange);
+    if (value === '1 months') {
+      const sortedDateRange = sortPictures(sortOption, pictures);
+      setFilteredPics(sortedDateRange);
+    } else {
+      const splitValue = value.split(' ');
+      const qty = parseInt(splitValue[0]);
+      const type = splitValue[1];
+      const today = new Date();
+      const startDate = moment(today).subtract(qty, type);
+      const dateRangePics = pictures.filter((pic) => {
+        return moment(pic.date).isSameOrAfter(startDate, 'day');
+      });
+      const sortedDateRange = sortPictures(sortOption, dateRangePics);
+      setFilteredPics(sortedDateRange);
+    }
     setTimeout(() => setLoading(false), 300);
   };
 
