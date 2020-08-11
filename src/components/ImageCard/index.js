@@ -6,7 +6,7 @@ const ImageCard = ({ image, title, date, copyright }) => {
   return (
     <article className="card" tabindex={0}>
       <figure className="card__figure">
-        <img className="card__image" src={image} alt={`${title} by ${copyright}`} tabIndex={0}></img>
+        <img className="card__image" src={image} alt={`${title} by ${copyright ? copyright : 'unknown'}`} tabIndex={0}></img>
       </figure>
       <p aria-label={moment(date).format('dddd, MMMM Do YYYY')} className="card__date" tabIndex={0}>
         {date}
