@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import ImageCard from './components/ImageCard';
 import Header from './components/Header';
 import Loading from './components/Loading';
@@ -7,10 +7,10 @@ import moment from 'moment';
 import './App.css';
 
 function App() {
-  const [pictures, updatePictures] = React.useState(null);
-  const [filteredPics, setFilteredPics] = React.useState([]);
-  const [loading, setLoading] = React.useState(false);
-  const [sortOption, setSortOption] = React.useState('newest');
+  const [pictures, updatePictures] = useState(null);
+  const [filteredPics, setFilteredPics] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [sortOption, setSortOption] = useState('newest');
 
   const sortPictures = useCallback(
     (sortPreference, imagesToSort = filteredPics) => {
