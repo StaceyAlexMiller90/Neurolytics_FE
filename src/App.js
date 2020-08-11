@@ -12,6 +12,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [sortOption, setSortOption] = useState('newest');
 
+  // Reusable sort function with filtered pictures as default
   const sortPictures = useCallback(
     (sortPreference, imagesToSort = filteredPics) => {
       if (sortPreference === 'oldest') {
@@ -31,6 +32,7 @@ function App() {
       const endDate = new Date();
       getNASAPictures(startDate, endDate).then((res) => {
         const images = res.filter((image) => image.media_type === 'image');
+        // By default, sort by newest image
         const sortedImages = sortPictures(sortOption, images);
         updatePictures(sortedImages);
         setFilteredPics(sortedImages);
@@ -38,6 +40,7 @@ function App() {
     }
   }, [pictures, sortPictures, filteredPics, sortOption]);
 
+  // To filter and re-sort images when time frame is changed
   const handleDateChange = (value) => {
     setLoading(true);
     if (value === '1 months') {
@@ -55,9 +58,11 @@ function App() {
       const sortedDateRange = sortPictures(sortOption, dateRangePics);
       setFilteredPics(sortedDateRange);
     }
+    // To give user some feedback (if sorted by newest date, they may not see the filter take place)
     setTimeout(() => setLoading(false), 300);
   };
 
+  // For handling a sort on the already filtered pictures
   const handleSortChange = (sortPreference) => {
     setSortOption(sortPreference);
     const updatedPictures = sortPictures(sortPreference);
