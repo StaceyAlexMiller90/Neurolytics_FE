@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import './ImageCard.css';
 
 const ImageCard = ({ image, title, date, copyright }) => {
@@ -7,7 +8,9 @@ const ImageCard = ({ image, title, date, copyright }) => {
       <figure className="card__figure">
         <img className="card__image" src={image} alt={title}></img>
       </figure>
-      <p className="card__date">{date}</p>
+      <p aria-label={moment(date).format('dddd, MMMM Do YYYY')} className="card__date">
+        {date}
+      </p>
       <header className="card__header">
         <h5 className="card__title">{title}</h5>
         {copyright && <p className={`card__copyright ${copyright.length > 30 ? 'card__copyright--small' : ''}`}>{copyright}</p>}
