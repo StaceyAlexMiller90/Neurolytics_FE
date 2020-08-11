@@ -24,8 +24,8 @@ const SelectDropdown = ({ handleDateChange, handleSortChange }) => {
     <header>
       <h1 className="header__title">NASA’s Astronomy Picture of the Day</h1>
       <section className="header__select" aria-label="Filter and sort options">
-        <Select name="sort" options={sortOptions} handleChange={(value) => executeOnChange(value, 'sort')} />
-        <Select name="filter" options={filterOptions} handleChange={(value) => executeOnChange(value, 'filter')} />
+        <Select title="sort by date" options={sortOptions} handleChange={(value) => executeOnChange(value, 'sort')} />
+        <Select title="filter date range" options={filterOptions} handleChange={(value) => executeOnChange(value, 'filter')} />
       </section>
     </header>
   );
