@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import ImageCard from './components/ImageCard';
 import Header from './components/Header';
 import Loading from './components/Loading';
@@ -10,6 +10,20 @@ function App() {
   const [pictures, updatePictures] = React.useState(null);
   const [filteredPics, setFilteredPics] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
+  const [sortOption, setSortOption] = React.useState('newest');
+
+  const sortPictures = useCallback(
+    (sortPreference, imagesToSort = filteredPics) => {
+      if (sortPreference === 'oldest') {
+        const sortedPics = [...imagesToSort].sort((a, b) => moment(a.date).diff(b.date));
+        return sortedPics;
+      } else if (sortPreference === 'newest') {
+        const sortedPics = [...imagesToSort].sort((a, b) => moment(b.date).diff(a.date));
+        return sortedPics;
+      }
+    },
+    [filteredPics],
+  );
 
   useEffect(() => {
     if (!pictures) {
@@ -17,12 +31,12 @@ function App() {
       const endDate = new Date();
       getNASAPictures(startDate, endDate).then((res) => {
         const images = res.filter((image) => image.media_type === 'image');
-        const sortedImages = images.sort((a, b) => moment(b.date).diff(a.date));
+        const sortedImages = sortPictures('newest', images);
         updatePictures(sortedImages);
         setFilteredPics(sortedImages);
       });
     }
-  }, [pictures, filteredPics]);
+  }, [pictures, sortPictures, filteredPics]);
 
   const handleDateChange = (value) => {
     setLoading(true);
@@ -34,26 +48,27 @@ function App() {
     const dateRangePics = pictures.filter((pic) => {
       return moment(pic.date).isSameOrAfter(startDate, 'day');
     });
-    setFilteredPics(dateRangePics);
+    const sortedDateRange = sortPictures(sortOption, dateRangePics);
+    setFilteredPics(sortedDateRange);
     setTimeout(() => setLoading(false), 300);
+  };
+
+  const handleSortChange = (sortPreference) => {
+    setSortOption(sortPreference);
+    const updatedPictures = sortPictures(sortPreference);
+    setFilteredPics(updatedPictures);
   };
 
   return (
     <div>
-      <Header handleDateChange={handleDateChange} />
+      <Header handleDateChange={handleDateChange} handleSortChange={handleSortChange} />
       {filteredPics.length === 0 || loading ? (
         <Loading />
       ) : (
         <div className="container">
           {filteredPics &&
-            filteredPics.map((picture) => (
-              <ImageCard
-                key={picture.date}
-                title={picture.title}
-                image={picture.url}
-                copyright={picture.copyright}
-                date={picture.date}
-              />
+            filteredPics.map((picture, i) => (
+              <ImageCard key={i} title={picture.title} image={picture.url} copyright={picture.copyright} date={picture.date} />
             ))}
         </div>
       )}

@@ -1,0 +1,52 @@
+.dropdown__box {
+  position: relative;
+  width: 12rem;
+  margin: auto;
+  margin-top: 1rem;
+}
+
+.dropdown__box:before {
+  content: url('../../assets/arrow.svg');
+  fill: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 2rem;
+  height: 2.5rem;
+  border: 0.01rem solid var(--text-primary);
+  border-radius: 0rem 0.2rem 0.2rem 0rem;
+  box-sizing: border-box;
+  background: var(--accent);
+  pointer-events: none;
+}
+
+.dropdown__menu {
+  padding: 0.5rem;
+  color: var(--text-primary);
+  width: 12rem;
+  height: 2.5rem;
+  border: 0.01rem solid var(--text-primary);
+  border-radius: 0.2rem;
+  appearance: none;
+  font: var(--primary-font);
+  cursor: pointer;
+}
+
+.dropdown__menu:focus {
+  outline: none;
+  box-shadow: 0 0 0 0.08rem var(--text-secondary);
+}
+
+.dropdown__item {
+  background-color: white;
+  color: var(--text-primary);
+}
+
+@media only screen and (min-width: 768px) {
+  .dropdown__box {
+    margin: 1rem;
+  }
+}
